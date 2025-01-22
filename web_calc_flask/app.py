@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Создание базы данных
+# Create BD
 def init_db():
     conn = sqlite3.connect("history.db")
     cursor = conn.cursor()
@@ -70,7 +70,7 @@ def calculator():
 
     return render_template("calculator.html", result=result, history=history)
 
-# Очистка истории
+# Clear
 @app.route("/clear", methods=["POST"])
 def clear_history():
     conn = sqlite3.connect("history.db")

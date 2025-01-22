@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Калькулятор на Django</h1>
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-5">
+                    <input type="text" name="num1" class="form-control" placeholder="Первое число" required>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="num2" class="form-control" placeholder="Второе число" required>
+                </div>
+                <div class="col-md-2">
+                    <select name="operation" class="form-select">
+                        <option value="add">Сложение</option>
+                        <option value="subtract">Вычитание</option>
+                        <option value="multiply">Умножение</option>
+                        <option value="divide">Деление</option>
+                        <option value="power">Степень</option>
+                        <option value="modulus">Остаток</option>
+                        <option value="sqrt">Корень</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="alert alert-info text-center">
+                <strong>Результат:</strong> {{ result }}
+            </div>
+        {% endif %}
+
+        <h2>История операций</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Операция</th>
+                    <th>Результат</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>{{ item.operation }}</td>
+                    <td>{{ item.result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="POST" action="/clear/">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">Очистить историю</button>
+        </form>
+    </div>
+</body>
+</html>
